@@ -22,6 +22,15 @@ app.UseSwagger();
 app.UseSwaggerUI();
 app.Urls.Add("http://0.0.0.0:5082");
 app.MapControllers();
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod());
+});
+
+app.UseCors();
 app.MapGet("/", () => "Translator API is running");
 app.Run();
 
