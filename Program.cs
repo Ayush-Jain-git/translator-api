@@ -20,7 +20,9 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseSwagger();
 app.UseSwaggerUI();
-app.Urls.Add("http://0.0.0.0:5082");
+var port = Environment.GetEnvironmentVariable("PORT") ?? "5082";
+app.Urls.Add($"http://0.0.0.0:{port}");
+//app.Urls.Add("http://0.0.0.0:5082");
 app.MapControllers();
 builder.Services.AddCors(options =>
 {
