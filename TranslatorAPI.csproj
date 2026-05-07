@@ -13,4 +13,10 @@
     <PackageReference Include="NTextCat" Version="0.3.65" />
   </ItemGroup>
 
+  <ItemGroup>
+  <None Include="Core14.profile.xml">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+</ItemGroup>
+
 </Project>

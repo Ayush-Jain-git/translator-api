@@ -9,7 +9,9 @@ namespace TranslatorAPI.Services
         public LanguageDetector()
         {
             var factory = new RankedLanguageIdentifierFactory();
-            _identifier = factory.Load("Core14.profile.xml");
+            var path = Path.Combine(AppContext.BaseDirectory, "Core14.profile.xml");
+_identifier = factory.Load(path);
+            //_identifier = factory.Load("Core14.profile.xml");
         }
 
         public string Detect(string text)
@@ -19,7 +21,7 @@ namespace TranslatorAPI.Services
 
              if (best == null)
                  return "unknown";
-                 
+
             return best?.Item1.Iso639_3 ?? "unknown";
         }
     }

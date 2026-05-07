@@ -16,7 +16,9 @@ namespace TranslatorAPI.Services
         {
             _httpClient = httpClient;
              var factory = new RankedLanguageIdentifierFactory();
-            _identifier = factory.Load("Core14.profile.xml");
+            //_identifier = factory.Load("Core14.profile.xml");
+            var path = Path.Combine(AppContext.BaseDirectory, "Core14.profile.xml");
+_identifier = factory.Load(path);
         }
 
     public async Task<string> TranslateAsync(string text, string target)
