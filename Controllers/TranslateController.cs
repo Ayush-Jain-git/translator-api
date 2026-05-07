@@ -6,6 +6,7 @@ namespace TranslatorAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Route("api/[translate]")]
     public class TranslateController : ControllerBase
     {
         private readonly TranslationService _service;
@@ -14,16 +15,22 @@ namespace TranslatorAPI.Controllers
         {
             _service = service;
         }
+        [HttpGet]
+    public IActionResult Get()
+    {
+        return Ok("GET working");
+    }
 
         [HttpPost]
         public async Task<IActionResult> Translate([FromBody] TranslateRequest request)
         {
-            var translated = await _service.TranslateAsync(
+             return Ok(new { translation = "POST working" });
+            /*var translated = await _service.TranslateAsync(
                 request.Text,
                 request.TargetLanguage
             );
 
-            return Ok(new { translation = translated });
+            return Ok(new { translation = translated });*/
         }
     }
 }
