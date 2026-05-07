@@ -5,7 +5,7 @@ using TranslatorAPI.Services;
 namespace TranslatorAPI.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+   // [Route("api/[controller]")]
     [Route("api/translate")]
     public class TranslateController : ControllerBase
     {
