@@ -4,7 +4,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddApplicationPart(typeof(TranslatorAPI.Controllers.TranslateController).Assembly);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options =>
@@ -41,5 +42,6 @@ app.MapControllers();
 
 app.UseCors();
 app.MapGet("/", () => "Translator API is running");
+Console.WriteLine("=== CONTROLLERS REGISTERED ===");
 app.Run();
 
