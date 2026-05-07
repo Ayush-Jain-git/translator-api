@@ -24,13 +24,12 @@ namespace TranslatorAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Translate([FromBody] TranslateRequest request)
         {
-             return Ok(new { translation = "POST working" });
-            /*var translated = await _service.TranslateAsync(
+            var translated = await _service.TranslateAsync(
                 request.Text,
                 request.TargetLanguage
             );
 
-            return Ok(new { translation = translated });*/
+            return Ok(new { translation = translated });
         }
     }
 }
