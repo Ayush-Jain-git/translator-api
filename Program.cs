@@ -15,7 +15,11 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod());
 });
 //builder.Services.AddOpenApi();
-builder.Services.AddHttpClient<TranslationService>();
+builder.Services.AddHttpClient<TranslationService>()
+  .ConfigureHttpClient(client =>
+    {
+        client.Timeout = TimeSpan.FromSeconds(15);
+    });
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
