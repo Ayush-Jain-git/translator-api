@@ -6,7 +6,7 @@ namespace TranslatorAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Route("api/[translate]")]
+    [Route("api/translate")]
     public class TranslateController : ControllerBase
     {
         private readonly TranslationService _service;
