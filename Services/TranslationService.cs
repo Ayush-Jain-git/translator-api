@@ -10,7 +10,8 @@ namespace TranslatorAPI.Services
         private readonly HttpClient _httpClient;
         private readonly RankedLanguageIdentifier _identifier;
 
-        private readonly string _sarvamKey = "sk_vl93m86d_A1PwJjHKywWqNfdMss03gUk6";
+       //private readonly string _sarvamKey = "sk_vl93m86d_A1PwJjHKywWqNfdMss03gUk6";
+         private readonly string _sarvamKey = Environment.GetEnvironmentVariable("SARVAM-API-KEY") ?? " ";
 
         public TranslationService(HttpClient httpClient)
         {
