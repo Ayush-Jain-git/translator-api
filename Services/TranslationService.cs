@@ -87,8 +87,8 @@ _identifier = factory.Load(path);
 
         var requestBody = new
         {
-            model = "sarvam-m",
-            max_tokens = 750,
+            model = "sarvam-30b",
+            max_tokens = 930,
             temperature = 0,
             messages = new[]
             {
