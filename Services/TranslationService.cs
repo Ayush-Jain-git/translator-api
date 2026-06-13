@@ -88,18 +88,18 @@ _identifier = factory.Load(path);
         var requestBody = new
         {
             model = "sarvam-30b",
-            max_tokens = 930,
+            max_tokens = 150,
             temperature = 0,
-            reasoning_effort = (string)null,
+            reasoning_effort = (string)null, // Keeps reasoning turned off to stay cheap
             messages = new[]
             {
                 new {
                     role = "system",
-                    content = $"You are a translator. Never explain. Never think. Only return the translated sentence in {target} language."
+                    content = $"You are a translation engine. Translate the text found inside the <source_text> XML tags into clean {target} language. Output ONLY the raw translated text. Do not repeat the input text. Do not add any punctuation unless necessary."
                 },
                 new {
                     role = "user",
-                    content = text
+                    content = $"<source_text>{text}</source_text>" // Wraps user text in structural boundaries
                 }
             }
         };
