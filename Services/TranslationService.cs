@@ -116,7 +116,7 @@ _identifier = factory.Load(path);
 
         var result = await response.Content.ReadAsStringAsync();
 
-        throw new Exception(result);
+        
         Console.WriteLine("===== SARVAM RESPONSE =====");
         Console.WriteLine(result);
         Console.WriteLine("===========================");
