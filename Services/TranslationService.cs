@@ -85,32 +85,36 @@ _identifier = factory.Load(path);
     {
         var apiKey = _sarvamKey;
 
-        var requestBody = new
+    // 1. Clean the target language string dynamically
+    string cleanTarget = target.Replace("roman ", "", StringComparison.OrdinalIgnoreCase).Trim();
+    cleanTarget = char.ToUpper(cleanTarget[0]) + cleanTarget.Substring(1);
+
+    // 2. Build the generalized request body
+    var requestBody = new
+    {
+        model = "sarvam-30b",
+        max_tokens = 150,
+        temperature = 0,
+        reasoning_effort = (string)null, // Keeps compute costs low
+        messages = new[]
         {
-            model = "sarvam-30b",
-            max_tokens = 250,
-            temperature = 0,
-            reasoning_effort = (string)null, 
-            messages = new[]
-            {
-                new {
-                    role = "system",
-                    content = $@"You are a phonetic translation engine specialized in Indian languages written in the English/Roman alphabet.
+            new {
+                role = "system",
+                content = $@"You are a translation engine. Translate the input text into {cleanTarget} language, but you MUST write the output script using English characters (Roman script) phonetically so it can be read in a chat application. Never use native language alphabets. 
 
-        Your task is to translate the source text into the target language, but output it using English letters (Romanized script) so it can be easily read in chat.
+    Follow this exact formatting style:
+    Input: <source_text>How are you?</source_text>
+    Output: [Phonetic translation in {cleanTarget} written using English alphabet]
 
-        Follow these strict rules:
-        1. Identify the core meaning of the text inside the <source_text> tags.
-        2. Translate that meaning completely into the '{target}' language.
-        3. Spell the final output phonetically using English characters (Roman script). 
-        4. Output ONLY the raw converted sentence. Do not repeat the input. Do not explain."
-                },
-                new {
-                    role = "user",
-                    content = $"<source_text>{text}</source_text>"
-                }
+    Input: <source_text>Where are you going?</source_text>
+    Output: [Phonetic translation in {cleanTarget} written using English alphabet]"
+            },
+            new {
+                role = "user",
+                content = $"<source_text>{text}</source_text>"
             }
-        };
+        }
+    };
 
 
         var json = JsonSerializer.Serialize(requestBody);
