@@ -284,41 +284,48 @@ namespace TranslatorAPI.Services
             // 2. Build the generalized request body payload
                // 2. Build the generalized request body payload with explicit, real-world pattern matching
        // 2. Build the truly universal request body payload
+       // 2. Build the comprehensive request body payload with robust example scenarios
     var requestBody = new
     {
         model = "sarvam-30b",
-        max_tokens = 150,
+        max_tokens = 300, 
         temperature = 0,
-        reasoning_effort = (string)null, // Keeps it fast and ultra-cheap
+        reasoning_effort = (string)null, // Completely disables reasoning loops to keep billing low
         messages = new[]
         {
             new {
                 role = "system",
-                content = $@"You are a universal phonetic translation engine. Your task is to translate the text inside <source_text> completely into the {cleanTarget} language.
+                content = $@"You are a universal cross-lingual translation engine. Translate the phrase inside the user's <source_text> XML tags into the {cleanTarget} language.
 
         CRITICAL RULES:
-        1. You MUST write the final output using English characters (Roman script) phonetically. Never use native scripts like ఎక్కడికి, कहाँ, etc.
-        2. Output ONLY the raw converted words. Do not repeat the input words. Do not write explanations.
+        1. If the target language is an Indian language (like Telugu, Hindi, Kannada, Tamil, etc.), you MUST write the output using English characters (Roman script) phonetically. Never use native alphabets like ఎక్కడికి or कहाँ.
+        2. If the target language is English, output standard, grammatically correct English text.
+        3. Output ONLY the raw converted words. Do not repeat the input words, do not add filler, and do not write explanations.
+        4. Keep technical English nouns like 'Azure', 'Host', 'Server', 'Message', 'Database', 'API' as they are, but integrate them naturally into the target grammar.
 
-        Study these cross-language examples carefully:
+        Follow these formatting styles based on the scenario:
 
-        [Scenario A: Input is in English]
-        Input: <source_text>Where are you going?</source_text>
+        [Scenario A: Translating English into a Romanized Indian Language]
+        Example 1 (Short Conversational):
+        Input: <source_text>Where are you going right now?</source_text>
         Target Language: Telugu
-        Output: Ekkadiki velthunnavu
+        Output: Ippudu nuvvu ekkadiki velthunnavu
 
-        Input: <source_text>How are you?</source_text>
-        Target Language: Hindi
-        Output: Aap kaise ho
-
-        [Scenario B: Input is in a Romanized Indian language]
-        Input: <source_text>Kya kar rahe ho</source_text>
+        Example 2 (Long / Technical):
+        Input: <source_text>I successfully hosted the project application on azure cloud service, and now the output message will come back instantly.</source_text>
         Target Language: Telugu
-        Output: Em chestunnavu
+        Output: Nenu project application ni azure cloud service lo successfully ga host chesaanu, ippudu output message ventane thirigi vasthundhi
 
-        Input: <source_text>Naku aa item kavali</source_text>
-        Target Language: Hindi
-        Output: Mujhe woh item chahiye
+        [Scenario B: Translating Code-Mixed / Romanized Input into English]
+        Example 3 (Short Conversational):
+        Input: <source_text>Naku aa item urgent ga kavali</source_text>
+        Target Language: English
+        Output: I need that item urgently
+
+        Example 4 (Long Code-Mixed / Technical):
+        Input: <source_text>main ye azure pe host krdia hai , and ye message convert hoke aaega</source_text>
+        Target Language: English
+        Output: I have hosted this on azure, and this message will come back converted
 
         Current Request:
         Input: <source_text>{text}</source_text>
@@ -331,6 +338,7 @@ namespace TranslatorAPI.Services
             }
         }
     };
+
 
 
             var json = JsonSerializer.Serialize(requestBody);
