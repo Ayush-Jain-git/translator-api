@@ -24,13 +24,32 @@ namespace TranslatorAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Translate([FromBody] TranslateRequest request)
         {
-             //return Ok(new { translation = "Azure working" });
+            Console.WriteLine("Controller entered");
+
+            try
+            {
+                
+
+ //return Ok(new { translation = "Azure working" });
             var translated = await _service.TranslateAsync(
                 request.Text,
                 request.TargetLanguage
             );
 
             return Ok(new { translation = translated });
+
+
+            }
+            
+            catch (Exception ex)
+            {
+        Console.WriteLine(ex.ToString());
+
+        return Ok(new
+        {
+            Error = ex.ToString()
+        });
+            }
         }
     }
 }

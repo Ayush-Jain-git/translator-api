@@ -22,6 +22,20 @@ builder.Services.AddHttpClient<TranslationService>()
         client.Timeout = TimeSpan.FromSeconds(15);
     });
 var app = builder.Build();
+app.UseExceptionHandler(errorApp =>
+{
+    errorApp.Run(async context =>
+    {
+        var exceptionHandlerPathFeature =
+            context.Features.Get<Microsoft.AspNetCore.Diagnostics.IExceptionHandlerPathFeature>();
+
+        var ex = exceptionHandlerPathFeature?.Error;
+
+        context.Response.ContentType = "text/plain";
+
+        await context.Response.WriteAsync(ex?.ToString() ?? "Unknown error");
+    });
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
