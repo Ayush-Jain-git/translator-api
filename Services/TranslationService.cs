@@ -90,7 +90,7 @@ _identifier = factory.Load(path);
             model = "sarvam-30b",
             max_tokens = 930,
             temperature = 0,
-            enable_thinking = false,
+            reasoning_effort = (string)null,
             messages = new[]
             {
                 new {
