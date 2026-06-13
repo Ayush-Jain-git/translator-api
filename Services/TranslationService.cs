@@ -88,21 +88,30 @@ _identifier = factory.Load(path);
         var requestBody = new
         {
             model = "sarvam-30b",
-            max_tokens = 150,
+            max_tokens = 250,
             temperature = 0,
-            reasoning_effort = (string)null, // Keeps reasoning turned off to stay cheap
+            reasoning_effort = (string)null, 
             messages = new[]
             {
                 new {
                     role = "system",
-                    content = $"You are a translation engine. Translate the text found inside the <source_text> XML tags into clean {target} language. Output ONLY the raw translated text. Do not repeat the input text. Do not add any punctuation unless necessary."
+                    content = $@"You are a phonetic translation engine specialized in Indian languages written in the English/Roman alphabet.
+
+        Your task is to translate the source text into the target language, but output it using English letters (Romanized script) so it can be easily read in chat.
+
+        Follow these strict rules:
+        1. Identify the core meaning of the text inside the <source_text> tags.
+        2. Translate that meaning completely into the '{target}' language.
+        3. Spell the final output phonetically using English characters (Roman script). 
+        4. Output ONLY the raw converted sentence. Do not repeat the input. Do not explain."
                 },
                 new {
                     role = "user",
-                    content = $"<source_text>{text}</source_text>" // Wraps user text in structural boundaries
+                    content = $"<source_text>{text}</source_text>"
                 }
             }
         };
+
 
         var json = JsonSerializer.Serialize(requestBody);
 
