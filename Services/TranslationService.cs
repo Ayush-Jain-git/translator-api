@@ -283,47 +283,55 @@ namespace TranslatorAPI.Services
 
             // 2. Build the generalized request body payload
                // 2. Build the generalized request body payload with explicit, real-world pattern matching
+       // 2. Build the truly universal request body payload
     var requestBody = new
     {
         model = "sarvam-30b",
         max_tokens = 150,
         temperature = 0,
-        reasoning_effort = (string)null, // Keeps compute costs low
+        reasoning_effort = (string)null, // Keeps it fast and ultra-cheap
         messages = new[]
         {
             new {
                 role = "system",
-                content = $@"You are an absolute translation engine. Your task is to translate the input text inside <source_text> into the {cleanTarget} language.
+                content = $@"You are a universal phonetic translation engine. Your task is to translate the text inside <source_text> completely into the {cleanTarget} language.
 
-                CRITICAL RULE: You MUST write the output script using English characters (Roman script) only. Never use native language alphabets. Output ONLY the raw converted words. Do not repeat the input words. Do not write explanations.
+        CRITICAL RULES:
+        1. You MUST write the final output using English characters (Roman script) phonetically. Never use native scripts like ఎక్కడికి, कहाँ, etc.
+        2. Output ONLY the raw converted words. Do not repeat the input words. Do not write explanations.
 
-                Study these exact examples to understand your task:
-                Example 1:
-                Input: <source_text>Kya kar rahe ho</source_text>
-                Target Language: Telugu
-                Output: Ekkadiki velthunnavu
+        Study these cross-language examples carefully:
 
-                Example 2:
-                Input: <source_text>Aap kaise ho</source_text>
-                Target Language: Kannada
-                Output: Neevu hegiddira
+        [Scenario A: Input is in English]
+        Input: <source_text>Where are you going?</source_text>
+        Target Language: Telugu
+        Output: Ekkadiki velthunnavu
 
-                Example 3:
-                Input: <source_text>Naku aa item kavali</source_text>
-                Target Language: Hindi
-                Output: Mujhe woh item chahiye
+        Input: <source_text>How are you?</source_text>
+        Target Language: Hindi
+        Output: Aap kaise ho
 
-                Current Request:
-                Input: <source_text>{text}</source_text>
-                Target Language: {cleanTarget}
-                Output:"
-                            },
-                            new {
-                                role = "user",
-                                content = $"Process the current request now."
-                            }
-                        }
-                    };
+        [Scenario B: Input is in a Romanized Indian language]
+        Input: <source_text>Kya kar rahe ho</source_text>
+        Target Language: Telugu
+        Output: Em chestunnavu
+
+        Input: <source_text>Naku aa item kavali</source_text>
+        Target Language: Hindi
+        Output: Mujhe woh item chahiye
+
+        Current Request:
+        Input: <source_text>{text}</source_text>
+        Target Language: {cleanTarget}
+        Output:"
+            },
+            new {
+                role = "user",
+                content = "Process the current request now."
+            }
+        }
+    };
+
 
             var json = JsonSerializer.Serialize(requestBody);
 
